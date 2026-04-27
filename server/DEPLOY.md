@@ -4,7 +4,36 @@
 
 MCProxy relay server is a single Rust binary (~2.5MB), no dependencies, no config file needed. It listens for WebSocket connections on port 9800 and relays game data between clients in the same room.
 
-## Option 1: Direct Binary
+## One-Click Install Scripts
+
+Auto-detect environment, install dependencies, build, register as system service, start. Idempotent — safe to run multiple times.
+
+**Linux** (requires sudo):
+```bash
+sudo bash server/install-linux.sh
+```
+Installs to `/opt/mcproxy`, registers systemd service, opens firewall port.
+
+**macOS**:
+```bash
+bash server/install-mac.sh
+```
+Installs to `~/.mcproxy`, registers LaunchAgent (auto-start on login).
+
+**Windows** (run PowerShell as Administrator):
+```powershell
+powershell -ExecutionPolicy Bypass -File server\install-win.ps1
+```
+Installs to `C:\ProgramData\MCProxy`, registers Scheduled Task (auto-start at boot), adds firewall rule.
+
+Custom port on all platforms:
+```bash
+BIND_ADDR=0.0.0.0:8080 sudo bash server/install-linux.sh
+```
+
+## Manual Deployment
+
+### Option 1: Direct Binary
 
 ### Build for your target platform
 
