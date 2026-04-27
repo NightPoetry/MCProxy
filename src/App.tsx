@@ -33,7 +33,6 @@ export default function App() {
   const [lang, setLang] = useState<Lang>(() => (localStorage.getItem("lang") as Lang) || "zh");
   const [theme, setTheme] = useState<Theme>(() => (localStorage.getItem("theme") as Theme) || "dark");
   const [view, setView] = useState<View>("console");
-  const [tab, setTab] = useState<"host" | "join">("host");
   const [serverUrl, setServerUrl] = useState("ws://127.0.0.1:9800");
   const [nickname, setNickname] = useState("");
   const [nickSaved, setNickSaved] = useState(false);
@@ -120,31 +119,29 @@ export default function App() {
 
     if (!inRoom) return (
       <div className="view-room-setup">
-        <div className="panel-header">
-          <button className={`panel-tab ${tab === "host" ? "active" : ""}`} onClick={() => setTab("host")}>{$("host")}</button>
-          <button className={`panel-tab ${tab === "join" ? "active" : ""}`} onClick={() => setTab("join")}>{$("join")}</button>
-        </div>
-        <div className="controls-body">
-          {tab === "host" ? (
-            <div className="form-stack">
-              <div className="section">
-                <div className="section-label"><span className="color-mark" style={{ background: "var(--green)" }} />{$("lanGame")}</div>
+        <div className="panel-header"><span className="panel-tab active">{$("room")}</span></div>
+        <div className="setup-split">
+          {/* ── Host card ── */}
+          <div className="setup-card">
+            <div className="setup-card-head"><span className="color-mark" style={{ background: "var(--green)" }} />{$("host")}</div>
+            <div className="setup-card-body">
+              <div className="setup-row">
                 {status.lan_game ? (
-                  <div className="detect-bar"><div className="detect-dot found" /><div className="detect-info"><div className="detect-motd">{status.lan_game.motd}</div><div className="detect-port">:{status.lan_game.port}</div></div><span className="badge badge-green">{$("detected")}</span></div>
+                  <div className="detect-bar compact"><div className="detect-dot found" /><span className="detect-motd">{status.lan_game.motd}</span><span className="detect-port">:{status.lan_game.port}</span></div>
                 ) : (
-                  <div className="detect-bar"><div className={`detect-dot ${status.scanning ? "scanning" : "idle"}`} /><span className="detect-hint">{status.scanning ? $("scanning") : $("noGame")}</span><button className="btn btn-sm btn-ghost" onClick={status.scanning ? doStopScan : doScan}>{status.scanning ? $("stop") : $("scan")}</button></div>
+                  <div className="detect-bar compact"><div className={`detect-dot ${status.scanning ? "scanning" : "idle"}`} /><span className="detect-hint">{status.scanning ? $("scanning") : $("noGame")}</span><button className="btn btn-sm btn-ghost" onClick={status.scanning ? doStopScan : doScan}>{status.scanning ? $("stop") : $("scan")}</button></div>
                 )}
               </div>
-              <div className="section"><div className="section-label"><span className="color-mark" style={{ background: "var(--purple)" }} />{$("password")}</div><input className="input" type="password" placeholder={$("setPwd")} value={hostPwd} onChange={e => setHostPwd(e.target.value)} /></div>
-              <button className="btn btn-green btn-block" disabled={!status.lan_game} onClick={doCreate}>{$("createRoom")}</button>
+              <div className="setup-row"><input className="input" type="password" placeholder={$("setPwd")} value={hostPwd} onChange={e => setHostPwd(e.target.value)} style={{ flex: 1 }} /><button className="btn btn-green" disabled={!status.lan_game} onClick={doCreate}>{$("createRoom")}</button></div>
             </div>
-          ) : (
-            <div className="form-stack">
-              <div className="section"><div className="section-label"><span className="color-mark" style={{ background: "var(--cyan)" }} />{$("roomId")}</div><input className="input" placeholder={$("enterCode")} value={roomInput} onChange={e => setRoomInput(e.target.value)} maxLength={6} style={{ fontWeight: 700, letterSpacing: "4px" }} /></div>
-              <div className="section"><div className="section-label"><span className="color-mark" style={{ background: "var(--purple)" }} />{$("password")}</div><input className="input" type="password" placeholder={$("enterPwd")} value={pwdInput} onChange={e => setPwdInput(e.target.value)} /></div>
-              <button className="btn btn-accent btn-block" disabled={!roomInput} onClick={() => doJoin()}>{$("joinRoom")}</button>
+          </div>
+          {/* ── Join card ── */}
+          <div className="setup-card">
+            <div className="setup-card-head"><span className="color-mark" style={{ background: "var(--cyan)" }} />{$("join")}</div>
+            <div className="setup-card-body">
+              <div className="setup-row"><input className="input room-code-input" placeholder={$("enterCode")} value={roomInput} onChange={e => setRoomInput(e.target.value)} maxLength={6} /><input className="input" type="password" placeholder={$("enterPwd")} value={pwdInput} onChange={e => setPwdInput(e.target.value)} style={{ flex: 1 }} /><button className="btn btn-accent" disabled={!roomInput} onClick={() => doJoin()}>{$("joinRoom")}</button></div>
             </div>
-          )}
+          </div>
         </div>
       </div>
     );

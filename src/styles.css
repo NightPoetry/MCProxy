@@ -285,6 +285,43 @@ body {
 .hero-title { font-size: 14px; font-weight: 600; color: var(--text-dim); }
 .hero-sub { font-size: 12px; color: var(--text-muted); text-align: center; max-width: 220px; }
 
+/* ── Setup split (Host / Join side by side) ── */
+.setup-split {
+  flex: 1; min-height: 0; overflow-y: auto;
+  padding: 12px; display: flex; flex-direction: column; gap: 10px;
+}
+
+.setup-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  box-shadow: var(--card-shadow);
+}
+
+.setup-card-head {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 12px;
+  font-size: 12px; font-weight: 600; color: var(--text-bright);
+  text-transform: uppercase; letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+
+.setup-card-body { padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
+
+.setup-row { display: flex; gap: 6px; align-items: center; }
+.setup-row .input { min-width: 0; }
+.setup-row .btn { flex-shrink: 0; }
+
+.room-code-input {
+  width: 110px; flex-shrink: 0;
+  font-weight: 700; letter-spacing: 3px; text-align: center;
+}
+
+.detect-bar.compact { padding: 0; border: none; background: none; box-shadow: none; flex: 1; min-width: 0; }
+.detect-bar.compact .detect-motd { font-size: 12px; }
+.detect-bar.compact .detect-port { font-size: 11px; margin-left: 4px; }
+.detect-bar.compact .detect-hint { font-size: 11px; }
+
 /* ── Form ──────────────────────────────── */
 .form-stack { display: flex; flex-direction: column; gap: 14px; }
 .section { margin-bottom: 0; }
