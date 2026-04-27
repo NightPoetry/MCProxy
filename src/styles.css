@@ -1,0 +1,530 @@
+/* ══════════════════════════════════════════
+   MCProxy — Theme System
+   ══════════════════════════════════════════ */
+
+/* ── Dark theme (default) ──────────────── */
+:root, [data-theme="dark"] {
+  --bg-base: #1e1e1e;
+  --bg-surface: #252526;
+  --bg-card: #2d2d30;
+  --bg-card-hover: #353538;
+  --bg-input: #3c3c3c;
+  --bg-input-focus: #484848;
+  --bg-sidebar: #2d2d30;
+  --bg-titlebar: #323233;
+  --bg-statusbar: #007acc;
+  --bg-hover: #2a2d2e;
+  --bg-overlay: rgba(0,0,0,0.55);
+  --border: #3c3c3c;
+  --border-card: #404045;
+  --border-active: #007acc;
+  --text: #cccccc;
+  --text-bright: #e0e0e0;
+  --text-dim: #858585;
+  --text-muted: #5a5a5a;
+  --accent: #007acc;
+  --accent-bright: #1a9fff;
+  --green: #4ec9b0;
+  --green-dim: #3a9d8f;
+  --yellow: #dcdcaa;
+  --orange: #ce9178;
+  --red: #f44747;
+  --red-dim: #c53434;
+  --purple: #c586c0;
+  --blue: #569cd6;
+  --cyan: #4fc1ff;
+  --card-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  --scrollbar-thumb: #424242;
+}
+
+/* ── Cream / warm theme ────────────────── */
+[data-theme="cream"] {
+  --bg-base: #f5f0e8;
+  --bg-surface: #ece7df;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f9f6f1;
+  --bg-input: #e8e3db;
+  --bg-input-focus: #ddd8d0;
+  --bg-sidebar: #e6e1d9;
+  --bg-titlebar: #e0dbd3;
+  --bg-statusbar: #6b8e6b;
+  --bg-hover: #eae5dd;
+  --bg-overlay: rgba(0,0,0,0.25);
+  --border: #d4cfc7;
+  --border-card: #c8c3bb;
+  --border-active: #6b8e6b;
+  --text: #3d3929;
+  --text-bright: #2a2518;
+  --text-dim: #7a7466;
+  --text-muted: #a09a8c;
+  --accent: #6b8e6b;
+  --accent-bright: #7da37d;
+  --green: #5a8a5a;
+  --green-dim: #4a7a4a;
+  --yellow: #8a7a3a;
+  --orange: #a06a3a;
+  --red: #b34040;
+  --red-dim: #993535;
+  --purple: #8a6a8a;
+  --blue: #4a6a9a;
+  --cyan: #3a7a9a;
+  --card-shadow: 0 1px 4px rgba(60,50,30,0.1);
+  --scrollbar-thumb: #c8c3bb;
+}
+
+/* ── Resets ─────────────────────────────── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: var(--bg-base);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  user-select: none;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); }
+::-webkit-scrollbar-corner { background: transparent; }
+
+/* ── Mono font shorthand ───────────────── */
+.mono { font-family: "Cascadia Code", "SF Mono", "Fira Code", "Consolas", monospace; }
+
+/* ══════════════════════════════════════════
+   Layout
+   ══════════════════════════════════════════ */
+
+.app-root { height: 100vh; display: flex; flex-direction: column; }
+
+/* ── Titlebar ──────────────────────────── */
+.titlebar {
+  height: 38px;
+  background: var(--bg-titlebar);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+  gap: 10px;
+}
+
+.titlebar-drag {
+  flex: 1;
+  -webkit-app-region: drag;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.titlebar-icon { width: 16px; height: 16px; background: var(--accent); flex-shrink: 0; }
+.titlebar-title { font-size: 13px; color: var(--text-dim); font-weight: 500; }
+
+.titlebar-actions { display: flex; gap: 2px; -webkit-app-region: no-drag; }
+
+.tb-btn {
+  height: 26px;
+  padding: 0 8px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 120ms ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.tb-btn:hover { background: var(--bg-hover); color: var(--text-bright); border-color: var(--border-active); }
+
+/* ── Connection bar ────────────────────── */
+.connect-bar {
+  display: flex;
+  gap: 1px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.connect-bar .input { flex: 1; border: none; min-width: 0; }
+.connect-bar .btn { border: none; }
+
+.nick-wrap { position: relative; display: flex; align-items: center; }
+.nick-input { width: 120px; font-family: inherit !important; border: none; }
+.nick-saved { position: absolute; right: 6px; font-size: 9px; color: var(--green); font-weight: 700; text-transform: uppercase; pointer-events: none; }
+
+/* ── Horizontal split ──────────────────── */
+.hsplit { flex: 1; min-height: 0; display: flex; }
+
+/* ── Sidebar ───────────────────────────── */
+.sidebar {
+  width: 46px;
+  background: var(--bg-sidebar);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 0;
+  gap: 2px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+}
+
+.sidebar-btn {
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none;
+  color: var(--text-dim); cursor: pointer;
+  transition: color 120ms ease;
+  position: relative; font-size: 16px; font-family: inherit;
+}
+.sidebar-btn:hover { color: var(--text); }
+.sidebar-btn.active { color: var(--text-bright); }
+.sidebar-btn.active::before {
+  content: ''; position: absolute; left: 0; top: 7px; bottom: 7px;
+  width: 2px; background: var(--accent);
+}
+
+.sidebar-indicator {
+  width: 6px; height: 6px;
+  position: absolute; top: 5px; right: 5px;
+}
+.sidebar-indicator.on { background: var(--green); }
+.sidebar-indicator.off { background: var(--text-muted); }
+.sidebar-indicator.pulse { background: var(--cyan); animation: blink 1.2s infinite; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+.sidebar-spacer { flex: 1; }
+
+/* ── Content ───────────────────────────── */
+.content { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+/* ── Panel header ──────────────────────── */
+.panel-header {
+  height: 32px;
+  background: var(--bg-surface);
+  display: flex; align-items: center;
+  padding: 0 12px; gap: 12px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-tab {
+  font-size: 12px; color: var(--text-dim); cursor: pointer;
+  padding: 7px 0; border: none; border-bottom: 2px solid transparent;
+  background: none; font-family: inherit;
+  text-transform: uppercase; letter-spacing: 0.04em; font-weight: 500;
+  transition: color 120ms;
+}
+.panel-tab:hover { color: var(--text); }
+.panel-tab.active { color: var(--text-bright); border-bottom-color: var(--accent); }
+
+.panel-header-actions { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+
+/* ══════════════════════════════════════════
+   Inputs & Buttons
+   ══════════════════════════════════════════ */
+
+.input {
+  height: 30px; padding: 0 10px;
+  background: var(--bg-input);
+  border: 1px solid transparent;
+  font-family: "Cascadia Code", "SF Mono", monospace;
+  font-size: 13px; color: var(--text-bright);
+  outline: none; transition: border-color 120ms, background 120ms;
+}
+.input:focus { border-color: var(--border-active); background: var(--bg-input-focus); }
+.input::placeholder { color: var(--text-muted); }
+.input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn {
+  height: 30px; padding: 0 14px; border: none;
+  font-family: inherit; font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: all 120ms;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 6px; flex-shrink: 0; white-space: nowrap;
+  text-transform: uppercase; letter-spacing: 0.03em;
+}
+.btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-accent:hover:not(:disabled) { background: var(--accent-bright); }
+.btn-green { background: var(--green-dim); color: #fff; }
+.btn-green:hover:not(:disabled) { background: var(--green); }
+.btn-ghost { background: var(--bg-input); color: var(--text); }
+.btn-ghost:hover:not(:disabled) { background: var(--bg-card-hover); }
+.btn-danger { background: var(--red-dim); color: #fff; }
+.btn-danger:hover:not(:disabled) { background: var(--red); }
+.btn-sm { height: 24px; padding: 0 8px; font-size: 11px; }
+.btn-block { width: 100%; }
+
+.btn-icon {
+  width: 24px; height: 24px; padding: 0;
+  background: none; border: none;
+  color: var(--text-dim); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-family: inherit;
+}
+.btn-icon:hover { color: var(--text-bright); }
+
+/* ══════════════════════════════════════════
+   View containers
+   ══════════════════════════════════════════ */
+
+.view-console, .view-room-setup, .view-room-active, .view-lobby, .view-fill {
+  flex: 1; min-height: 0; display: flex; flex-direction: column;
+}
+.view-fill { align-items: center; justify-content: center; }
+
+.controls-body { flex: 1; min-height: 0; overflow-y: auto; padding: 14px; }
+
+.empty-hero { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.hero-icon { font-size: 32px; opacity: 0.25; }
+.hero-title { font-size: 14px; font-weight: 600; color: var(--text-dim); }
+.hero-sub { font-size: 12px; color: var(--text-muted); text-align: center; max-width: 220px; }
+
+/* ── Form ──────────────────────────────── */
+.form-stack { display: flex; flex-direction: column; gap: 14px; }
+.section { margin-bottom: 0; }
+.section-label {
+  font-size: 11px; color: var(--text-muted); text-transform: uppercase;
+  letter-spacing: 0.06em; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 6px;
+}
+.section-label .color-mark { width: 3px; height: 12px; flex-shrink: 0; }
+
+/* ── LAN detect bar ────────────────────── */
+.detect-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; background: var(--bg-card);
+  border: 1px solid var(--border-card); box-shadow: var(--card-shadow);
+}
+.detect-dot { width: 8px; height: 8px; flex-shrink: 0; }
+.detect-dot.found { background: var(--green); }
+.detect-dot.scanning { background: var(--cyan); animation: blink 1.2s infinite; }
+.detect-dot.idle { background: var(--text-muted); }
+.detect-info { flex: 1; min-width: 0; }
+.detect-motd { font-size: 13px; color: var(--green); font-family: "Cascadia Code", monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.detect-port { font-size: 11px; color: var(--text-dim); font-family: "Cascadia Code", monospace; }
+.detect-hint { font-size: 12px; color: var(--text-muted); flex: 1; }
+
+/* ══════════════════════════════════════════
+   Badges
+   ══════════════════════════════════════════ */
+
+.badge {
+  display: inline-flex; align-items: center; padding: 2px 7px;
+  font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.badge-green  { background: rgba(78,201,176,0.15); color: var(--green); }
+.badge-blue   { background: rgba(86,156,214,0.15); color: var(--blue); }
+.badge-orange { background: rgba(206,145,120,0.15); color: var(--orange); }
+.badge-red    { background: rgba(244,71,71,0.15); color: var(--red); }
+.badge-purple { background: rgba(197,134,192,0.15); color: var(--purple); }
+
+/* ══════════════════════════════════════════
+   Cards — Room & Members
+   ══════════════════════════════════════════ */
+
+/* ── Room header (active room) ─────────── */
+.room-banner {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+}
+.room-banner-id {
+  font-size: 24px; font-family: "Cascadia Code", monospace;
+  font-weight: 700; color: var(--cyan); letter-spacing: 3px;
+}
+.room-banner-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.room-banner-game { font-size: 12px; color: var(--orange); font-family: "Cascadia Code", monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.room-banner-proxy { font-size: 11px; color: var(--cyan); font-family: "Cascadia Code", monospace; }
+
+/* ── Member cards ──────────────────────── */
+.member-grid {
+  flex: 1; min-height: 0; overflow-y: auto;
+  padding: 12px; display: flex; flex-wrap: wrap;
+  gap: 10px; align-content: flex-start;
+}
+
+.member-card {
+  width: 150px; padding: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  box-shadow: var(--card-shadow);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.member-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+}
+.member-card.is-host { border-top: 2px solid var(--blue); }
+
+.member-avatar {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 700; color: #fff;
+}
+
+.member-nick {
+  font-size: 13px; font-weight: 600; color: var(--text-bright);
+  text-align: center; word-break: break-all;
+}
+.member-pid {
+  font-size: 10px; color: var(--text-muted);
+  font-family: "Cascadia Code", monospace;
+}
+
+.member-empty {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%;
+  color: var(--text-muted); font-size: 12px;
+}
+
+/* ── Room cards (lobby) ────────────────── */
+.lobby-body {
+  flex: 1; min-height: 0; overflow-y: auto; padding: 12px;
+}
+
+.lobby-empty {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; height: 100%; gap: 12px;
+}
+
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.room-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  box-shadow: var(--card-shadow);
+  padding: 14px;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms, transform 120ms;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.room-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  transform: translateY(-1px);
+}
+
+.room-card-header { display: flex; align-items: center; justify-content: space-between; }
+
+.room-card-id {
+  font-family: "Cascadia Code", monospace;
+  font-size: 18px; font-weight: 700;
+  color: var(--cyan); letter-spacing: 2px;
+}
+
+.room-card-body {
+  font-size: 13px; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.room-card-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px;
+}
+.room-card-host { color: var(--purple); font-weight: 500; }
+.room-card-count { color: var(--green); font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.room-card-count::before {
+  content: ''; display: inline-block;
+  width: 6px; height: 6px; background: var(--green);
+}
+
+/* ══════════════════════════════════════════
+   Log Panel
+   ══════════════════════════════════════════ */
+
+.log-body {
+  flex: 1; min-height: 0; overflow-y: auto;
+  padding: 4px 0; background: var(--bg-base);
+  font-family: "Cascadia Code", "SF Mono", monospace;
+  font-size: 12px; line-height: 1.65;
+}
+.log-line { padding: 0 12px; display: flex; gap: 0; white-space: pre; }
+.log-line:hover { background: var(--bg-hover); }
+.log-time { color: var(--text-muted); min-width: 68px; flex-shrink: 0; }
+.log-level { min-width: 46px; flex-shrink: 0; font-weight: 600; }
+.log-level.info { color: var(--blue); }
+.log-level.error { color: var(--red); }
+.log-level.success { color: var(--green); }
+.log-msg { color: var(--text); word-break: break-all; white-space: pre-wrap; }
+.log-empty {
+  display: flex; align-items: center; justify-content: center;
+  height: 100%; color: var(--text-muted); font-family: inherit; font-size: 12px;
+}
+
+/* ══════════════════════════════════════════
+   Status Bar
+   ══════════════════════════════════════════ */
+
+.statusbar {
+  height: 22px; background: var(--bg-statusbar);
+  display: flex; align-items: center;
+  padding: 0 10px; gap: 12px;
+  flex-shrink: 0; font-size: 12px; color: #fff;
+}
+.statusbar.disconnected { background: #68217a; }
+[data-theme="cream"] .statusbar.disconnected { background: #8a6a8a; }
+.statusbar.in-room { background: #16825d; }
+[data-theme="cream"] .statusbar.in-room { background: #5a8a5a; }
+
+.status-item { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.status-spacer { flex: 1; }
+.status-dot-sm { width: 7px; height: 7px; }
+
+/* ══════════════════════════════════════════
+   Toast
+   ══════════════════════════════════════════ */
+
+.toast-container {
+  position: fixed; top: 44px; right: 8px;
+  display: flex; flex-direction: column; gap: 4px;
+  z-index: 100; pointer-events: none; max-width: 300px;
+}
+.toast {
+  padding: 6px 12px; font-size: 12px;
+  pointer-events: auto; animation: toast-in 180ms ease;
+  display: flex; align-items: center; gap: 8px;
+  border-left: 3px solid;
+  background: var(--bg-card); color: var(--text);
+  box-shadow: var(--card-shadow);
+}
+.toast-info { border-left-color: var(--blue); }
+.toast-error { border-left-color: var(--red); }
+.toast-success { border-left-color: var(--green); }
+.toast-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; flex-shrink: 0; }
+.toast-info .toast-label { color: var(--blue); }
+.toast-error .toast-label { color: var(--red); }
+.toast-success .toast-label { color: var(--green); }
+@keyframes toast-in { from { transform: translateX(16px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* ══════════════════════════════════════════
+   Modal
+   ══════════════════════════════════════════ */
+
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: var(--bg-overlay);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+}
+.modal-box {
+  background: var(--bg-card); border: 1px solid var(--border-card);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  padding: 20px; min-width: 280px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.modal-title { font-size: 14px; font-weight: 600; color: var(--text-bright); }
+.modal-sub { font-size: 12px; color: var(--text-dim); font-family: "Cascadia Code", monospace; }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
